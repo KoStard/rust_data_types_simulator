@@ -1,5 +1,6 @@
 use std::fmt;
 use std::i8;
+use std::ops::{Add, Sub};
 
 struct iN {
     bits: [bool; N],
@@ -69,13 +70,43 @@ impl fmt::Binary for iN {
     }
 }
 
+impl Add for iN {
+    type Output = iN;
+    fn add(self, other: iN) -> iN{
+        let mut res = [false;N];
+        let mut held_value = false;
+        // println!("{:?}", self.bits);
+        // println!("{:?}", other.bits);
+        for (index, b) in self.bits.iter().enumerate().rev() {
+            if *b && other.bits[index] {
+                res[index] = held_value;
+                held_value = true;
+            } else if *b || other.bits[index] {
+                res[index] = true;
+                if held_value {
+                    res[index] = false;
+                }
+            } else {
+                res[index] = held_value;
+                held_value = false;
+            }
+        }
+        if held_value {
+            panic!("Addition with overflow");
+        }
+        // println!("{:?}", res);
+        iN {bits: res}
+    }
+}
+
 
 // Controlling bits count from here
-const N: usize = 8;
+// Add +, -, *, / ability
+// Allow converting to other types
+// Check use std::ops; for that
+// Maybe use vectors to allow create multiple integers with different numbering system
+const N: usize = 3;
 
 fn main() {
-    for i in i8::MIN as i64 - 100..i8::MAX as i64 + 100 {
-        let n = iN::new(i);
-        println!("{} -> {} = {} = {:b}", i, i as i8, n, n);
-    }
+    println!("{}", iN::new(-4) + iN::new(1));
 }
