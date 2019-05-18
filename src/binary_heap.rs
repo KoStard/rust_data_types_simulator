@@ -21,7 +21,7 @@ impl Heap {
     pub fn from_range(r: std::ops::Range<i64>) -> Heap{
         Heap { array: r.collect::<Vec<i64>>()}
     }
-    pub fn get_at(&self, row: u32, col: u32) -> Node {
+    pub fn get_node_at(&self, row: u32, col: u32) -> Node {
         Node {
             heap: self,
             row: row,
