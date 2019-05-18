@@ -31,14 +31,10 @@ impl MinHeap {
         }
         self
     }
-    pub fn extract(&mut self, item: i64) -> &mut MinHeap {
-        self.array[0] = self.array[self.array.len() - 1];
-        self.array.remove(self.array.len() - 1);
+    pub fn levels(&self) -> u32{
         let length = self.array.len();
-        let mut current_level = 0;
-        let mut levels = 0;
         let mut count = 0;
-        let mut index = 0;
+        let mut levels = 0;
         loop {
             count += 1 << levels;
             levels += 1;
@@ -46,6 +42,15 @@ impl MinHeap {
                 break;
             }
         }
+        levels
+    }
+    pub fn extract(&mut self, item: i64) -> &mut MinHeap {
+        self.array[0] = self.array[self.array.len() - 1];
+        self.array.remove(self.array.len() - 1);
+        let length = self.array.len();
+        let mut current_level = 0;
+        let mut levels = self.levels();
+        let mut index = 0;
         loop {
             let left_child_index = left_child(index);
             let right_child_index = right_child(index);
