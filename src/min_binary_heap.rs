@@ -138,15 +138,15 @@ impl Display for MinHeap {
 
 
 pub fn demo() {
-    let mut heap = MinHeap::from_array((0i64..50i64).rev().collect::<Vec<i64>>().as_slice());
+    let mut heap = MinHeap::from_array((0i64..63i64).rev().collect::<Vec<i64>>().as_slice());
     println!("{}", heap);
 /*
-                                                                0
-                               3                                                               1
-               11                              4                               2                               19
-       15              12              7               5               25              23              21              20
-   17      16      13      31      9       8       6       27      26      38      24      37      22      36      43      35
- 18  34  42  33  14  32  41  46  10  30  40  29  48  28  39  45  44  47  49
+                                                               0                                                                
+                               16                                                              1
+               24                              17                              8                               2
+       28              25              20              18              12              9               4               3
+   30      29      26      44      22      21      19      40      14      13      10      36      6       5       33      32
+ 31  47  55  46  27  45  54  59  23  43  53  42  61  41  52  58  15  39  51  38  11  37  50  57  7   35  49  34  60  62  48  56
 */
 
     // let mut heap = MinHeap::from_array(&[10,9,8,7,6,5,4,3,2,1]);
