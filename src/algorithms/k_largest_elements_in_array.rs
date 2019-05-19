@@ -1,8 +1,8 @@
 // mod min_binary_heap;
 // use min_binary_heap;
 
-use crate::max_binary_heap::MaxHeap;
-use crate::min_binary_heap::MinHeap;
+use crate::data_structures::max_binary_heap::MaxHeap;
+use crate::data_structures::min_binary_heap::MinHeap;
 
 pub enum Modes {
     Sorting,
