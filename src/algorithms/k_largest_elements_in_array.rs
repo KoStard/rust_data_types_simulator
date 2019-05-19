@@ -6,7 +6,7 @@ use crate::min_binary_heap::MinHeap;
 
 pub enum Modes {
     Sorting,
-    Linear,
+    Buffers,
     BigMaxMeap,
     SmallMinMeap,
 }
@@ -23,7 +23,7 @@ pub fn k_largest_elements_in_array(array: &Vec<i64>, k: usize, mode: Modes) -> V
                 .map(|e| *e)
                 .collect();
         }
-        Modes::Linear => {
+        Modes::Buffers => {
             // O (n * k)
             let mut res = vec![];
             for &n in array.iter() {
