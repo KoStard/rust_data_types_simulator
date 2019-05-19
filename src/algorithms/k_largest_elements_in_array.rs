@@ -42,7 +42,7 @@ pub fn k_largest_elements_in_array(array: &Vec<i64>, k: usize, mode: Modes) -> V
             res
         }
         // Order will be lost - is reversely sorted
-        // Faster than SmallMinMeap when n is big and k is small
+        // Faster than SmallMinHeap when n is big and k is small
         Modes::BigMaxMeap => {
             // O(n + k log n) - O(n log n) is the worst case - basically is a sorting algorithm
             let mut heap = MaxHeap::from_array(&array); // O(n)
@@ -54,7 +54,7 @@ pub fn k_largest_elements_in_array(array: &Vec<i64>, k: usize, mode: Modes) -> V
             res
         }
         // Unordered - linear when n == k
-        // Faster than BigMaxMeap when k is big
+        // Faster than BigMaxHeap when k is big
         Modes::SmallMinMeap => {
             // O(k + (n-k) log k)
             let mut heap = MinHeap::from_array(&array[..std::cmp::min(k, array.len())]); // O(k)
