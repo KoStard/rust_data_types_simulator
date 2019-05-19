@@ -2,7 +2,7 @@ use std::cmp::PartialEq;
 use std::fmt::Display;
 
 pub struct MinHeap {
-    pub array: Vec<i64>,
+    array: Vec<i64>,
 }
 
 impl MinHeap {
@@ -38,7 +38,7 @@ impl MinHeap {
         let mut index = index;
         loop {
             let parent_index = if index == 0 { 0 } else { parent(index) };
-            if index == 0 || self.array[parent_index] < self.array[index] {
+            if index == 0 || self.array[parent_index] <= self.array[index] {
                 break;
             } else {
                 self.swap(parent_index, index);
@@ -91,11 +91,27 @@ impl MinHeap {
         self.min_heapify_up(index);
     }
 
+    fn increase_key(&mut self, index: usize, new_value: i64) {
+        self.array[index] = new_value;
+        self.min_heapify(index);
+    }
+
+    pub fn change_root_value(&mut self, new_value: i64) -> &mut MinHeap{
+        if new_value > self.getMini() {
+            self.increase_key(0, new_value);
+        }
+        self
+    }
+
     // O(log n)
     pub fn delete_key(&mut self, index: usize) -> &mut MinHeap {
         self.decrease_key(index, self.getMini() - 1);
         self.extract();
         self
+    }
+
+    pub fn as_vec(&self) -> Vec<i64>{
+        self.array.clone()
     }
 }
 
@@ -141,7 +157,7 @@ pub fn demo() {
     let mut heap = MinHeap::from_array((0i64..63i64).rev().collect::<Vec<i64>>().as_slice());
     println!("{}", heap);
 /*
-                                                               0                                                                
+                                                               0
                                16                                                              1
                24                              17                              8                               2
        28              25              20              18              12              9               4               3
