@@ -1,0 +1,1 @@
+Rust pointers - https://static.rust-lang.org/doc/0.9/rust.html#pointer-types
