@@ -1,8 +1,10 @@
+#[allow(dead_code)]
 pub struct Stack {
     mem: Vec<i64>,
     stack_size: Option<usize>
 }
 
+#[allow(dead_code)]
 impl Stack {
     pub fn new() -> Stack {
         Stack {
@@ -56,6 +58,7 @@ impl std::fmt::Debug for Stack {
 }
 
 
+#[allow(dead_code)]
 pub fn demo() {
     let mut s = Stack::new();
     s.push(100);

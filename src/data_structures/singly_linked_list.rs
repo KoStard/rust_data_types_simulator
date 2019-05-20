@@ -1,6 +1,6 @@
 enum Node {
     Body(i64, Box<Node>),
-    Head
+    Head,
 }
 use Node::*;
 
@@ -9,35 +9,33 @@ impl Node {
     pub fn next(&self) -> Option<&Node> {
         match &self {
             Body(_, next) => Some(next),
-            Head => None
+            Head => None,
         }
     }
 }
 
 // As LIFO - last-in-first-out
 pub struct SinglyLinkedList {
-    tail: Node // last added node
+    tail: Node, // last added node
 }
 
 #[allow(dead_code)]
 impl SinglyLinkedList {
-    pub fn new() -> SinglyLinkedList{
-        SinglyLinkedList {
-            tail: Node::Head
-        }
+    pub fn new() -> SinglyLinkedList {
+        SinglyLinkedList { tail: Node::Head }
     }
     // Getting the ownership, because I can't figure out any other solution for this yet :/
-    pub fn append(mut self, value: i64) -> SinglyLinkedList{
+    pub fn push(mut self, value: i64) -> SinglyLinkedList {
         let old_tail = self.tail;
         self.tail = Node::Body(value, Box::new(old_tail));
         self
     }
-    pub fn pop(mut self) -> Option<i64> {
+    pub fn pop(mut self) -> Option<(SinglyLinkedList, i64)> {
         match self.tail {
             Body(value, next) => {
                 self.tail = *next;
-                Some(value)
-            },
+                Some((self, value))
+            }
             Head => {
                 panic!("Trying to remove element from empty linked list");
             }
@@ -46,7 +44,28 @@ impl SinglyLinkedList {
     pub fn last_value(&self) -> Option<i64> {
         match &self.tail {
             Body(value, _) => Some(*value),
-            Head => None
+            Head => None,
+        }
+    }
+    pub fn is_empty(&self) -> bool {
+        match self.tail {
+            Body(_, _) => false,
+            Head => true,
+        }
+    }
+    pub fn len(&self) -> usize {
+        let mut res = 0;
+        let mut current_node = &self.tail;
+        loop {
+            match current_node {
+                Body(_, next) => {
+                    res += 1;
+                    current_node = next;
+                }
+                Head => {
+                    return res;
+                }
+            }
         }
     }
 }
@@ -59,9 +78,15 @@ impl std::fmt::Display for SinglyLinkedList {
             match current_node {
                 Body(value, next) => {
                     let value_len = value.to_string().len();
-                    lines[0].push_str(&format!("{}    ", (0..value_len+4).map(|_|'-').collect::<String>()));
+                    lines[0].push_str(&format!(
+                        "{}    ",
+                        (0..value_len + 4).map(|_| '-').collect::<String>()
+                    ));
                     lines[1].push_str(&format!("| {} | => ", value));
-                    lines[2].push_str(&format!("{}    ", (0..value_len+4).map(|_|'-').collect::<String>()));
+                    lines[2].push_str(&format!(
+                        "{}    ",
+                        (0..value_len + 4).map(|_| '-').collect::<String>()
+                    ));
                     current_node = next;
                 }
                 Head => {
@@ -79,16 +104,11 @@ impl std::fmt::Display for SinglyLinkedList {
 
 pub fn demo() {
     let list = SinglyLinkedList::new();
-    let list = list
-    .append(10)
-    .append(11)
-    .append(12)
-    .append(13)
-    .append(14);
+    let list = list.push(10).push(11).push(12).push(13).push(14);
     println!("{}", list);
-/*
-------    ------    ------    ------    ------    -----
-| 14 | => | 13 | => | 12 | => | 11 | => | 10 | => | x |
-------    ------    ------    ------    ------    -----
- */
+    /*
+    ------    ------    ------    ------    ------    -----
+    | 14 | => | 13 | => | 12 | => | 11 | => | 10 | => | x |
+    ------    ------    ------    ------    ------    -----
+     */
 }
