@@ -27,5 +27,11 @@ Simulating data types in rust to learn how they work.
 | 100 |
 -------
 ```
+ - Singly Linked Lists - LIFO - O(1) time to add/remove a node to/from the end.
+ ```
+ ------    ------    ------    ------    ------    -----
+| 14 | => | 13 | => | 12 | => | 11 | => | 10 | => | x |
+------    ------    ------    ------    ------    -----
+ ```
 ## Implementing some algorithms
 - k_largest_elements_in_array - with sorting, buffers, minHeaps, maxHeaps
