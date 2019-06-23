@@ -1,4 +1,5 @@
 use crate::data_structures::binary_tree::BinaryTree;
+use std::collections::VecDeque;
 
 #[allow(dead_code)]
 fn pre_order_traversal_util<T>(node: &BinaryTree<T>, vec: &mut Vec<T>) where T: Clone{
@@ -54,6 +55,24 @@ pub fn post_order_traversal<T>(root: &BinaryTree<T>) -> Vec<T> where T: Clone{
     res
 }
 
+#[allow(dead_code)]
+pub fn level_order_traversal<T>(root: &BinaryTree<T>) -> Vec<T> where T: Clone{ // BFS
+    let mut mem = VecDeque::new();
+    let mut res = Vec::new();
+    mem.push_back(root);
+    while mem.len() != 0 {
+        let el = mem.pop_front().unwrap();
+        res.push(el.value.clone());
+        if let Some(ref left) = &el.left {
+            mem.push_back(left);
+        }
+        if let Some(ref right) = &el.right {
+            mem.push_back(right);
+        }
+    }
+    res
+}
+
 pub fn demo() {
     let mut root = BinaryTree::new("F");
     let mut l = BinaryTree::new("B");
@@ -66,6 +85,6 @@ pub fn demo() {
     root.right = Some(Box::new(r));
     println!(
         "{:?}",
-        post_order_traversal(&root)
+        level_order_traversal(&root)
     );
 }
